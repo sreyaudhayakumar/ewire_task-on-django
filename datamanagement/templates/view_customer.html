@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Customer</title>
+    {% load static %}
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 800px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .customer-details {
+            margin-bottom: 20px;
+        }
+        .customer-details p {
+            margin-bottom: 10px;
+        }
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .actions a {
+            margin-right: 10px;
+        }
+        .customer-photo {
+            max-width: 200px;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Customer Details</h1>
+
+        <div class="customer-details">
+            <p><strong>Name:</strong> {{ customer.name }}</p>
+            <p><strong>Email:</strong> {{ customer.email }}</p>
+            <p><strong>Phone:</strong> {{ customer.phone }}</p>
+            <p><strong>Address:</strong> {{ customer.address }}</p>
+            
+            <p><strong>Photo:</strong></p>
+            {% if customer.photo %}
+                <img src="{{ customer.photo.url }}" alt="Customer Photo" class="customer-photo">
+            {% else %}
+                <p>No photo available</p>
+            {% endif %}
+            
+            <p><strong>Resume:</strong></p>
+            {% if customer.resume %}
+                <a href="{{ customer.resume.url }}" download class="btn btn-primary">Download Resume</a>
+            {% else %}
+                <p>No resume available</p>
+            {% endif %}
+            
+            <p><strong>Status:</strong> {{ customer.get_status_display }}</p>
+        </div>
+
+        <div class="actions">
+            <a href="{% url 'maker_home' %}" class="btn btn-secondary">Back to Home</a>
+            <a href="{% url 'update_customer' customer.id %}" class="btn btn-primary">Edit Details</a>
+            <a href="{% url 'delete_customer' customer.id %}" class="btn btn-danger">Delete Customer</a>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

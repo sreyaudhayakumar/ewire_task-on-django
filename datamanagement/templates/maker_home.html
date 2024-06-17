@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maker Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .customer-card {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .customer-card:hover {
+            transform: translateY(-5px);
+        }
+        .customer-card h2 {
+            margin-top: 0;
+        }
+        .btn-custom {
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px 0;
+            background-color: #343a40;
+            color: #ffffff;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Sreya's Portal</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'view_customers' %}">View Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <h1 class="my-4 text-center">Maker Home</h1>
+
+     
+        <div class="text-center my-4">
+            <form method="get" action="{% url 'create_customer' %}">
+                <button type="submit" class="btn btn-primary btn-lg">Create Application</button>
+            </form>
+        </div>
+
+
+        <div class="row">
+            {% for customer in customers %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="customer-card">
+                        <h2>{{ customer.name }}</h2>
+                        <p>Email: {{ customer.email }}</p>
+                        <p>Status: {{ customer.status }}</p>
+                        {% if customer.checker_approval %}
+                            <p>Checker's Decision: {{ customer.get_checker_approval_display }}</p>
+                        {% endif %}
+                        <a href="{% url 'view_customer' customer.id %}" class="btn btn-info btn-custom">View Details</a>
+                        <form method="post" action="{% url 'delete_customer' customer.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-custom">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <span>&copy; 2024 Sreya's Portal. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

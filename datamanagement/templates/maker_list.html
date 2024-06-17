@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makers List</title>
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1, h2 {
+            color: #343a40;
+        }
+        .maker-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .maker-list > li {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .maker-list a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .maker-list a:hover {
+            text-decoration: underline;
+        }
+        .user-list {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .user-list > li {
+            background: #e9ecef;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-list a {
+            text-decoration: none;
+            color: #28a745;
+        }
+        .user-list a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #343a40;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Makers List</h1>
+        <h2 class="text-center">Checker: {{ user.username }}</h2>
+        <ul class="maker-list">
+            {% for maker in makers %}
+                <li>
+                    <h3><a href="{% url 'maker_detail' maker.id %}">{{ maker.username }}</a></h3>
+                    <ul class="user-list">
+                        {% for user in maker.users_under_maker %}
+                            <li>
+                                {{ user.username }} - Status: {{ user.status }}
+                                <a href="{% url 'update_customer_status' user.id %}" class="ml-2">Update Status</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'checker_home' %}" class="back-link">Back to Checker Home</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
